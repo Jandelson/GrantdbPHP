@@ -55,19 +55,23 @@ class Conexao {
 	{
         $this->conecta();
         $this->query = $query;
-	    if($this->resultado = mysql_query($this->query)){
+        if (empty($this->query)) {
+            throw new \Exception("Consulta ou dados Invalidos!");
+        }
+	    if ($this->resultado = mysql_query($this->query)) {
             $this->desconecta();
             return $this->resultado;
-        }else{
+        } else {
 	        print "Ocorreu um erro ao executar a Query MySQL: <b>$query</b>";
 			print "<br><br>";
 			print "Erro no MySQL: <b>".mysql_error()."</b>";
 			die();
             $this->desconecta();
         }
+
     }
 
-	private function desconecta(){
+	private function desconecta() {
         return mysql_close($this->link);
     }
 }

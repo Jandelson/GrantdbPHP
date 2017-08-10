@@ -7,6 +7,7 @@ $grantdb->Mysql($config);
 /*POST FORM*/
 $user = $_POST['user'];
 $prefixo = $_POST['prefixo'];
+$db_prefixo = (empty($_POST['db_alt']))?false:$_POST['db_prefixo'];
 $like = (empty($_POST['like']))?false:true;
 
 $permiss = $grantdb->geragrant(
@@ -14,16 +15,24 @@ $permiss = $grantdb->geragrant(
     $config['host'], /*Host*/
     $user,
     $prefixo,
-    $like
+    $like,
+    $db_prefixo
 );
-
 if (isset($_POST['post'])) {
-    print "<pre>";
-    if (count($permiss)>0) {
-        $result = implode("<br>",$permiss);
-    } else {
-        $result = "DADOS INVALIDOS!";
+    try {
+        if (is_array($permiss)) {
+            $result = implode("<br>",$permiss);
+        } else if (empty($permiss)){
+            throw new Exception("Dados Invalidos!");
+        } else {
+            $result = $permiss;
+        }
+    } catch (Exception $e) {
+        $result = $e->getMessage();
     }
+
+    print "<pre>";
+    print $result;
 }
 
 header('Location: index.php?result='.$result.'');

@@ -44,6 +44,10 @@ class GrantdbPHP extends Conexao
      * @var bool
      */
     public $like;
+    /**
+     * @var bool,string
+     */
+    public $db_prefixo;
 
     /**
      * GrantdbPHP constructor
@@ -68,7 +72,8 @@ class GrantdbPHP extends Conexao
         $host,
         $user,
         $prefix,
-        $like=true
+        $like=true,
+        $db_prefixo=false
     )
     {
 
@@ -77,24 +82,37 @@ class GrantdbPHP extends Conexao
         $this->user = $user;
         $this->prefix = $prefix;
         $this->like = $like;
+        $this->db_prefixo = $db_prefixo;
 
+        /*
+            Usar busca por like
+        */
         if ($this->like) {
             $this->like = '\_%';
         }
 
-        $query = $this->query('
-            SELECT
-                CONCAT("GRANT '.implode(',',$this->command).' ON ",db,".",tb," TO '.$this->user.'@'.$this->host.';") grant_command
-            FROM
-                (SELECT table_schema db,table_name tb FROM information_schema.tables
-            WHERE
-                table_schema="'.$this->db.'" AND table_name LIKE "'.$this->prefix.''.$this->like.'") A
-        ');
-
-        while($dados = mysql_fetch_array($query)) {
-            $result[] = $dados['grant_command'];
+        /*
+            Assumir banco alternativo
+        */
+        if ($this->db_prefixo) {
+            $this->db = $this->db_prefixo;
         }
 
+        try {
+            $query = $this->query('
+                SELECT
+                    CONCAT("GRANT '.implode(',',$this->command).' ON ",db,".",tb," TO '.$this->user.'@'.$this->host.';") grant_command
+                FROM
+                    (SELECT table_schema db,table_name tb FROM information_schema.tables
+                WHERE
+                    table_schema="'.$this->db.'" AND table_name LIKE "'.$this->prefix.''.$this->like.'") A
+            ');
+            while($dados = mysql_fetch_array($query)) {
+                $result[] = $dados['grant_command'];
+            }
+        } catch (\Exception $e) {
+            $result = $e->getMessage();
+        }
         return $result;
     }
 }

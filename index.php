@@ -9,8 +9,8 @@
             <div class="container">
                 <h3>GrantdbPHP</h3>
                 <div class="row">
-                    <div class="col-md-8">
-                        <form class="form-horizontal" action="action.php" method="post">
+                    <form class="form-horizontal" action="action.php" method="post">
+                        <div class="col-md-4">
                             <div class="form-group">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -20,14 +20,20 @@
                                     <span class="input-group-addon">
                                         <input type="checkbox" name="like" value="1" title="User Like?">
                                     </span>
-                                    <input type="text" name="prefixo" class="form-control" placeholder="prefixo tabela">
+                                    <input type="text" name="prefixo" class="form-control" placeholder="Prefixo tabela">
+                                </div>
+                                <div class="input-group">
+                                    <span class="input-group-addon">
+                                        <input type="checkbox" name="db_alt" value="1" title="Usar Db Alternativo">
+                                    </span>
+                                    <input type="text" name="db_prefixo" class="form-control" placeholder="Db Alternativo">
                                 </div>
                             </div>
                             <div class="form-group">
                                 <button type="submit" name="post" class="btn btn-default">Gerar</button>
                             </div>
-                        </form>
-                    </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </div>
