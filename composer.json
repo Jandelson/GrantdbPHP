@@ -3,7 +3,6 @@
     "description": "Gerar comandos grant de permissões para aplicar ao banco de dados MySQL",
     "homepage": "https://github.com/Jandelson/GrantdbPHP",
     "type": "library",
-    "license": "MIT",
     "authors": [
         {
             "name": "Jandelson Oliveira",
@@ -12,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4"
+        "php": ">=5.5.0"
     },
     "autoload": {
         "psr-4": {"GrantdbPHP\\": "src/GrantdbPHP"}
