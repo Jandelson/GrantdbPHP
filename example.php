@@ -6,7 +6,7 @@ $config = [
     'dbase'=> 'teste',
     'host'=>  'localhost',
     'user'=>  'root',
-    'senha'=> 'admmysqlgeweb'
+    'senha'=> ''
 ];
 
 $grantdb = new GrantdbPHP\GrantdbPHP($config);
